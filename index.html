@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#0a1226" />
+    <meta
+      name="description"
+      content="Своя игра для компании 18+: три раунда, ставки и финальный вопрос на эрудицию."
+    />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="stylesheet" href="./fonts/fonts.css" />
+    <link rel="icon" type="image/png" href="./icons/icon-192.png" />
+    <link rel="apple-touch-icon" href="./icons/icon-192.png" />
+    <title>Свояк — вечеринка-викторина</title>
+    <script type="module" crossorigin src="./assets/index-Cl4f7Aho.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-DzkTZth6.css">
+  </head>
+  <body>
+    <div id="root">
+      <div
+        id="boot-splash"
+        style="
+          position: fixed;
+          inset: 0;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 16px;
+          background: #0a1226;
+          color: #f5c542;
+          font-family: system-ui, sans-serif;
+          text-align: center;
+          padding: 24px;
+        "
+      >
+        <div style="font-size: 42px">🎲</div>
+        <div style="font-size: 22px; font-weight: 700; color: #fff">Свояк</div>
+        <div style="font-size: 14px; color: #9aa7c7">Загружаем игру…</div>
+      </div>
+    </div>
+    <script>
+      // Игра работает только онлайн: старые офлайн-кэши больше не нужны.
+      ;(async () => {
+        try {
+          if ('serviceWorker' in navigator) {
+            const regs = await navigator.serviceWorker.getRegistrations()
+            await Promise.all(regs.map((r) => r.unregister()))
+          }
+          if ('caches' in window) {
+            const keys = await caches.keys()
+            await Promise.all(keys.map((k) => caches.delete(k)))
+          }
+        } catch (e) {}
+      })()
+
+      // Страховка: если за 10 секунд приложение не смонтировалось —
+      // показываем кнопку принудительной перезагрузки без кэша.
+      setTimeout(() => {
+        const splash = document.getElementById('boot-splash')
+        if (splash && document.getElementById('root')) {
+          splash.innerHTML =
+            '<div style="font-size:42px">🎲</div>' +
+            '<div style="font-size:18px;font-weight:700;color:#fff">Что-то подвисло</div>' +
+            '<div style="font-size:14px;color:#9aa7c7;max-width:320px">Нажми кнопку — обновим страницу начисто</div>' +
+            '<button onclick="location.reload(true)" style="margin-top:8px;padding:12px 28px;border:0;border-radius:12px;background:#f5c542;color:#0a1226;font-size:16px;font-weight:700;cursor:pointer">Обновить</button>'
+        }
+      }, 10000)
+    </script>
+  </body>
+</html>
