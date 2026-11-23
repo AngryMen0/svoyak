@@ -1,4 +1,4 @@
-const CACHE = 'svoyak-v3'
+const CACHE = 'svoyak-v4'
 const ASSETS = ['/manifest.webmanifest', '/icons/icon-192.png', '/icons/icon-512.png']
 
 self.addEventListener('install', (e) => {
